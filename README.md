@@ -2,6 +2,6 @@
 
 ## Usage
 
-- Download the Visual Shader Nodes Addon
+- Download the ShaderV (by arkology11) and Shader-Lib (by iDigvijaysinhG)
 - Import a material
  
