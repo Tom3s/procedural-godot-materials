@@ -1,0 +1,679 @@
+[gd_resource type="VisualShader" load_steps=43 format=3 uid="uid://d18ewr0fnmemm"]
+
+[ext_resource type="Script" path="res://addons/shaderV/rgba/noise/generic2d.gd" id="1_qs4me"]
+[ext_resource type="Script" path="res://addons/shaderV/tools/TimeScaled.gd" id="2_fiawm"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_xur3d"]
+source = 1
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_sivfl"]
+source = 1
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_0wui7"]
+size = Vector2(600, 500)
+expression = "float chance = .85;
+r.r *= step(noiseR, chance);
+g.g *= step(noiseG, chance);
+b.b *= step(noiseB, chance);
+
+
+out_color = vec4(r.r, g.g, b.b, 1.0);
+"
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_xxhqi"]
+default_input_values = [1, Vector3(0, 0, 0), 2, 28.0]
+initialized = true
+script = ExtResource("1_qs4me")
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_b8qdy"]
+default_input_values = [0, 0.032]
+initialized = true
+script = ExtResource("2_fiawm")
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_1qqu4"]
+default_input_values = [1, Vector3(0, 0, 0), 2, 30.0]
+initialized = true
+script = ExtResource("1_qs4me")
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_7d7w8"]
+default_input_values = [0, 0.0, 1, 0.8]
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_4iwiu"]
+default_input_values = [1, Vector3(0, 0, 0), 2, 26.0]
+initialized = true
+script = ExtResource("1_qs4me")
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_7b4cv"]
+default_input_values = [0, 0.0, 1, 0.3]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_rs2d0"]
+input_name = "screen_uv"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_08gv5"]
+default_input_values = [0, 0.0, 1, 31.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_k4psq"]
+parameter_name = "Timescale"
+hint = 2
+min = 0.002
+max = 0.2
+step = 0.002
+default_value_enabled = true
+default_value = 0.11
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_q2023"]
+default_input_values = [0, 0.0, 1, 17.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_b0yew"]
+source = 1
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_b4ifi"]
+size = Vector2(640, 500)
+expression = "// float remap = noise * 2. - 1.;
+float neg = step(signNoise, .5) * 2. - 1.;
+float steppedNoise = floor(noise * noiseSteps) / noiseSteps;
+error = pow(steppedNoise, exponent) * neg * errorStrength;"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_ef5qm"]
+default_input_values = [0, 0.0, 1, 0.3]
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_ct40v"]
+default_input_values = [1, Vector3(0, 0, 0), 2, 27.0]
+initialized = true
+script = ExtResource("1_qs4me")
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_pa645"]
+default_input_values = [0, 0.0, 1, 13.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_5qp64"]
+default_input_values = [0, 0.0, 1, 71.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_sgvek"]
+default_input_values = [0, 0.0, 1, 0.3]
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_rteo4"]
+size = Vector2(620, 540)
+expression = "float width = VIEWPORT_SIZE.x;
+float height = VIEWPORT_SIZE.y;
+float x = floor(screenUV.x * width);
+float y = floor(screenUV.y * height);
+float curr_index = mod((y * (width + widthError) + x) + (width * height), (width * height));
+//uv = floor((screenUV + index) * dimensions) / dimensions;
+uv = vec2(mod(curr_index, width) / width, floor(curr_index / width) / height);"
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_26seb"]
+default_input_values = [1, Vector3(0, 0, 0), 2, 29.0]
+initialized = true
+script = ExtResource("1_qs4me")
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_4o1e7"]
+default_input_values = [1, Vector3(0, 0, 0), 2, 31.0]
+initialized = true
+script = ExtResource("1_qs4me")
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_73ug4"]
+default_input_values = [0, 0.0, 1, 59.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_nhavx"]
+default_input_values = [0, 0.0, 1, 0.3]
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_3ulab"]
+default_input_values = [1, Vector3(0, 0, 0), 2, 100.0]
+initialized = true
+script = ExtResource("1_qs4me")
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_dekdu"]
+default_input_values = [0, 0.005]
+initialized = true
+script = ExtResource("2_fiawm")
+
+[sub_resource type="VisualShaderNodeIntParameter" id="VisualShaderNodeIntParameter_pmy5y"]
+parameter_name = "WidthErrorStrength"
+hint = 1
+max = 500
+default_value_enabled = true
+default_value = 240
+
+[sub_resource type="VisualShaderNodeIntParameter" id="VisualShaderNodeIntParameter_rc8gd"]
+parameter_name = "ErrorSteps"
+hint = 1
+min = 1
+max = 500
+default_value_enabled = true
+default_value = 24
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_sv8sp"]
+parameter_name = "ErrorCurveExp"
+hint = 1
+max = 50.0
+default_value_enabled = true
+default_value = 33.5
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_g8mc7"]
+size = Vector2(640, 500)
+expression = "// float remap = noise * 2. - 1.;
+float neg = step(signNoise, .5) * 2. - 1.;
+float steppedNoise = floor(noise * noiseSteps) / noiseSteps;
+error = pow(steppedNoise, exponent) * neg * errorStrength;"
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_gre0h"]
+size = Vector2(640, 500)
+expression = "// float remap = noise * 2. - 1.;
+float neg = step(signNoise, .5) * 2. - 1.;
+float steppedNoise = floor(noise * noiseSteps) / noiseSteps;
+error = pow(steppedNoise, exponent) * neg * errorStrength;"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_r5kgt"]
+default_input_values = [0, 0.0, 1, 5.0]
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_1vb1u"]
+default_input_values = [1, Vector3(0, 0, 0), 2, 100.0]
+initialized = true
+script = ExtResource("1_qs4me")
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_vt20m"]
+default_input_values = [0, 0.0, 1, 78.0]
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_qg5yj"]
+default_input_values = [0, 0.0, 1, 150.0]
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_d62a8"]
+default_input_values = [1, Vector3(0, 0, 0), 2, 100.0]
+initialized = true
+script = ExtResource("1_qs4me")
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_36s55"]
+size = Vector2(620, 540)
+expression = "float width = VIEWPORT_SIZE.x;
+float height = VIEWPORT_SIZE.y;
+float x = floor(screenUV.x * width);
+float y = floor(screenUV.y * height);
+float curr_index = mod((y * (width + widthError) + x) + (width * height), (width * height));
+//uv = floor((screenUV + index) * dimensions) / dimensions;
+uv = vec2(mod(curr_index, width) / width, floor(curr_index / width) / height);"
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_cl1f8"]
+size = Vector2(620, 540)
+expression = "float width = VIEWPORT_SIZE.x;
+float height = VIEWPORT_SIZE.y;
+float x = floor(screenUV.x * width);
+float y = floor(screenUV.y * height);
+float curr_index = mod((y * (width + widthError) + x) + (width * height), (width * height));
+//uv = floor((screenUV + index) * dimensions) / dimensions;
+uv = vec2(mod(curr_index, width) / width, floor(curr_index / width) / height);"
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_ira5g"]
+input_name = "inv_projection_matrix"
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx, depth_test_disabled, unshaded, shadows_disabled, ambient_light_disabled, fog_disabled;
+
+uniform float Timescale : hint_range(0.00200000009499, 0.20000000298023, 0.00200000009499) = 0.10999999940395;
+uniform int WidthErrorStrength : hint_range(0, 500) = 240;
+uniform int ErrorSteps : hint_range(1, 500) = 24;
+uniform float ErrorCurveExp : hint_range(0, 50) = 33.5;
+uniform sampler2D screen_tex_frg_5 : hint_screen_texture;
+uniform sampler2D screen_tex_frg_16 : hint_screen_texture;
+uniform sampler2D screen_tex_frg_17 : hint_screen_texture;
+
+
+// GenericNoise2D
+#include \"res://addons/shaderV/rgba/noise/generic2d.gdshaderinc\"
+
+void vertex() {
+// Input:2
+	mat4 n_out2p0 = INV_PROJECTION_MATRIX;
+
+
+// Output:0
+	MODELVIEW_MATRIX = n_out2p0;
+
+
+}
+
+void fragment() {
+// Input:4
+	vec2 n_out4p0 = SCREEN_UV;
+
+
+// FloatParameter:41
+	float n_out41p0 = Timescale;
+
+
+	float n_out20p0;
+// ScaledTIME:20
+	{
+		n_out20p0 = n_out41p0 * TIME;
+	}
+
+
+// FloatOp:40
+	float n_in40p1 = 31.00000;
+	float n_out40p0 = n_out41p0 * n_in40p1;
+
+
+// FloatOp:35
+	float n_out35p0 = n_out20p0 + n_out40p0;
+
+
+	float n_out34p0;
+// GenericNoise2D:34
+	vec3 n_in34p1 = vec3(0.00000, 0.00000, 0.00000);
+	float n_in34p2 = 26.00000;
+	{
+		n_out34p0 = _genericNoise2D((vec3(n_out35p0).xy + n_in34p1.xy) * n_in34p2);
+	}
+
+
+// IntParameter:72
+	int n_out72p0 = WidthErrorStrength;
+
+
+// IntParameter:73
+	int n_out73p0 = ErrorSteps;
+
+
+// FloatOp:57
+	float n_in57p1 = 13.00000;
+	float n_out57p0 = n_out41p0 * n_in57p1;
+
+
+// FloatOp:55
+	float n_out55p0 = n_out20p0 + n_out57p0;
+
+
+	float n_out56p0;
+// GenericNoise2D:56
+	vec3 n_in56p1 = vec3(0.00000, 0.00000, 0.00000);
+	float n_in56p2 = 27.00000;
+	{
+		n_out56p0 = _genericNoise2D((vec3(n_out55p0).xy + n_in56p1.xy) * n_in56p2);
+	}
+
+
+// FloatParameter:74
+	float n_out74p0 = ErrorCurveExp;
+
+
+	float n_out54p0;
+// Expression:54
+	n_out54p0 = 0.0;
+	{
+		// float remap = n_out34p0 * 2. - 1.;
+		float neg = step(n_out56p0, .5) * 2. - 1.;
+		float steppedNoise = floor(n_out34p0 * float(n_out73p0)) / float(n_out73p0);
+		n_out54p0 = pow(steppedNoise, n_out74p0) * neg * float(n_out72p0);
+	}
+
+
+	vec2 n_out6p0;
+// Expression:6
+	n_out6p0 = vec2(0.0, 0.0);
+	{
+		float width = VIEWPORT_SIZE.x;
+		float height = VIEWPORT_SIZE.y;
+		float x = floor(n_out4p0.x * width);
+		float y = floor(n_out4p0.y * height);
+		float curr_index = mod((y * (width + n_out54p0) + x) + (width * height), (width * height));
+		//n_out6p0 = floor((n_out4p0 + index) * dimensions) / dimensions;
+		n_out6p0 = vec2(mod(curr_index, width) / width, floor(curr_index / width) / height);
+	}
+
+
+	vec4 n_out5p0;
+// Texture2D:5
+	n_out5p0 = texture(screen_tex_frg_5, n_out6p0);
+
+
+	float n_out19p0;
+// GenericNoise2D:19
+	vec3 n_in19p1 = vec3(0.00000, 0.00000, 0.00000);
+	float n_in19p2 = 28.00000;
+	{
+		n_out19p0 = _genericNoise2D((vec3(n_out20p0).xy + n_in19p1.xy) * n_in19p2);
+	}
+
+
+// FloatOp:58
+	float n_in58p1 = 71.00000;
+	float n_out58p0 = n_out41p0 * n_in58p1;
+
+
+// FloatOp:59
+	float n_out59p0 = n_out20p0 + n_out58p0;
+
+
+	float n_out60p0;
+// GenericNoise2D:60
+	vec3 n_in60p1 = vec3(0.00000, 0.00000, 0.00000);
+	float n_in60p2 = 29.00000;
+	{
+		n_out60p0 = _genericNoise2D((vec3(n_out59p0).xy + n_in60p1.xy) * n_in60p2);
+	}
+
+
+	float n_out75p0;
+// Expression:75
+	n_out75p0 = 0.0;
+	{
+		// float remap = n_out19p0 * 2. - 1.;
+		float neg = step(n_out60p0, .5) * 2. - 1.;
+		float steppedNoise = floor(n_out19p0 * float(n_out73p0)) / float(n_out73p0);
+		n_out75p0 = pow(steppedNoise, n_out74p0) * neg * float(n_out72p0);
+	}
+
+
+	vec2 n_out82p0;
+// Expression:82
+	n_out82p0 = vec2(0.0, 0.0);
+	{
+		float width = VIEWPORT_SIZE.x;
+		float height = VIEWPORT_SIZE.y;
+		float x = floor(n_out4p0.x * width);
+		float y = floor(n_out4p0.y * height);
+		float curr_index = mod((y * (width + n_out75p0) + x) + (width * height), (width * height));
+		//n_out82p0 = floor((n_out4p0 + index) * dimensions) / dimensions;
+		n_out82p0 = vec2(mod(curr_index, width) / width, floor(curr_index / width) / height);
+	}
+
+
+	vec4 n_out16p0;
+// Texture2D:16
+	n_out16p0 = texture(screen_tex_frg_16, n_out82p0);
+
+
+// FloatOp:42
+	float n_in42p1 = 17.00000;
+	float n_out42p0 = n_out41p0 * n_in42p1;
+
+
+// FloatOp:30
+	float n_out30p0 = n_out20p0 + n_out42p0;
+
+
+	float n_out28p0;
+// GenericNoise2D:28
+	vec3 n_in28p1 = vec3(0.00000, 0.00000, 0.00000);
+	float n_in28p2 = 30.00000;
+	{
+		n_out28p0 = _genericNoise2D((vec3(n_out30p0).xy + n_in28p1.xy) * n_in28p2);
+	}
+
+
+// FloatOp:64
+	float n_in64p1 = 59.00000;
+	float n_out64p0 = n_out41p0 * n_in64p1;
+
+
+// FloatOp:65
+	float n_out65p0 = n_out20p0 + n_out64p0;
+
+
+	float n_out63p0;
+// GenericNoise2D:63
+	vec3 n_in63p1 = vec3(0.00000, 0.00000, 0.00000);
+	float n_in63p2 = 31.00000;
+	{
+		n_out63p0 = _genericNoise2D((vec3(n_out65p0).xy + n_in63p1.xy) * n_in63p2);
+	}
+
+
+	float n_out76p0;
+// Expression:76
+	n_out76p0 = 0.0;
+	{
+		// float remap = n_out28p0 * 2. - 1.;
+		float neg = step(n_out63p0, .5) * 2. - 1.;
+		float steppedNoise = floor(n_out28p0 * float(n_out73p0)) / float(n_out73p0);
+		n_out76p0 = pow(steppedNoise, n_out74p0) * neg * float(n_out72p0);
+	}
+
+
+	vec2 n_out83p0;
+// Expression:83
+	n_out83p0 = vec2(0.0, 0.0);
+	{
+		float width = VIEWPORT_SIZE.x;
+		float height = VIEWPORT_SIZE.y;
+		float x = floor(n_out4p0.x * width);
+		float y = floor(n_out4p0.y * height);
+		float curr_index = mod((y * (width + n_out76p0) + x) + (width * height), (width * height));
+		//n_out83p0 = floor((n_out4p0 + index) * dimensions) / dimensions;
+		n_out83p0 = vec2(mod(curr_index, width) / width, floor(curr_index / width) / height);
+	}
+
+
+	vec4 n_out17p0;
+// Texture2D:17
+	n_out17p0 = texture(screen_tex_frg_17, n_out83p0);
+
+
+	float n_out70p0;
+// ScaledTIME:70
+	float n_in70p0 = 0.00500;
+	{
+		n_out70p0 = n_in70p0 * TIME;
+	}
+
+
+// FloatOp:77
+	float n_in77p1 = 5.00000;
+	float n_out77p0 = n_out70p0 + n_in77p1;
+
+
+	float n_out69p0;
+// GenericNoise2D:69
+	vec3 n_in69p1 = vec3(0.00000, 0.00000, 0.00000);
+	float n_in69p2 = 100.00000;
+	{
+		n_out69p0 = _genericNoise2D((vec3(n_out77p0).xy + n_in69p1.xy) * n_in69p2);
+	}
+
+
+// FloatOp:79
+	float n_in79p1 = 78.00000;
+	float n_out79p0 = n_out70p0 + n_in79p1;
+
+
+	float n_out78p0;
+// GenericNoise2D:78
+	vec3 n_in78p1 = vec3(0.00000, 0.00000, 0.00000);
+	float n_in78p2 = 100.00000;
+	{
+		n_out78p0 = _genericNoise2D((vec3(n_out79p0).xy + n_in78p1.xy) * n_in78p2);
+	}
+
+
+// FloatOp:80
+	float n_in80p1 = 150.00000;
+	float n_out80p0 = n_out70p0 + n_in80p1;
+
+
+	float n_out81p0;
+// GenericNoise2D:81
+	vec3 n_in81p1 = vec3(0.00000, 0.00000, 0.00000);
+	float n_in81p2 = 100.00000;
+	{
+		n_out81p0 = _genericNoise2D((vec3(n_out80p0).xy + n_in81p1.xy) * n_in81p2);
+	}
+
+
+	vec4 n_out18p0;
+// Expression:18
+	n_out18p0 = vec4(0.0, 0.0, 0.0, 0.0);
+	{
+		float chance = .85;
+		n_out5p0.r *= step(n_out69p0, chance);
+		n_out16p0.g *= step(n_out78p0, chance);
+		n_out17p0.b *= step(n_out81p0, chance);
+		
+		
+		n_out18p0 = vec4(n_out5p0.r, n_out16p0.g, n_out17p0.b, 1.0);
+		
+	}
+
+
+// Output:0
+	ALBEDO = vec3(n_out18p0.xyz);
+
+
+}
+"
+graph_offset = Vector2(-3234.31, 420.617)
+flags/depth_test_disabled = true
+flags/unshaded = true
+flags/shadows_disabled = true
+flags/ambient_light_disabled = true
+flags/fog_disabled = true
+nodes/vertex/0/position = Vector2(420, 100)
+nodes/vertex/2/node = SubResource("VisualShaderNodeInput_ira5g")
+nodes/vertex/2/position = Vector2(-220, 200)
+nodes/vertex/connections = PackedInt32Array(2, 0, 0, 10)
+nodes/fragment/0/position = Vector2(2520, 400)
+nodes/fragment/4/node = SubResource("VisualShaderNodeInput_rs2d0")
+nodes/fragment/4/position = Vector2(-240, 120)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_b0yew")
+nodes/fragment/5/position = Vector2(1000, 180)
+nodes/fragment/6/node = SubResource("VisualShaderNodeExpression_rteo4")
+nodes/fragment/6/position = Vector2(240, 220)
+nodes/fragment/6/size = Vector2(620, 540)
+nodes/fragment/6/input_ports = "0,3,screenUV;1,0,widthError;"
+nodes/fragment/6/output_ports = "0,3,uv;"
+nodes/fragment/6/expression = "float width = VIEWPORT_SIZE.x;
+float height = VIEWPORT_SIZE.y;
+float x = floor(screenUV.x * width);
+float y = floor(screenUV.y * height);
+float curr_index = mod((y * (width + widthError) + x) + (width * height), (width * height));
+//uv = floor((screenUV + index) * dimensions) / dimensions;
+uv = vec2(mod(curr_index, width) / width, floor(curr_index / width) / height);"
+nodes/fragment/16/node = SubResource("VisualShaderNodeTexture_xur3d")
+nodes/fragment/16/position = Vector2(1000, 700)
+nodes/fragment/17/node = SubResource("VisualShaderNodeTexture_sivfl")
+nodes/fragment/17/position = Vector2(1000, 1260)
+nodes/fragment/18/node = SubResource("VisualShaderNodeExpression_0wui7")
+nodes/fragment/18/position = Vector2(1680, 420)
+nodes/fragment/18/size = Vector2(600, 500)
+nodes/fragment/18/input_ports = "0,5,r;1,5,g;2,5,b;3,0,noiseR;4,0,noiseG;5,0,noiseB;"
+nodes/fragment/18/output_ports = "0,5,out_color;"
+nodes/fragment/18/expression = "float chance = .85;
+r.r *= step(noiseR, chance);
+g.g *= step(noiseG, chance);
+b.b *= step(noiseB, chance);
+
+
+out_color = vec4(r.r, g.g, b.b, 1.0);
+"
+nodes/fragment/19/node = SubResource("VisualShaderNodeCustom_xxhqi")
+nodes/fragment/19/position = Vector2(-1260, 760)
+nodes/fragment/20/node = SubResource("VisualShaderNodeCustom_b8qdy")
+nodes/fragment/20/position = Vector2(-2197.34, 600)
+nodes/fragment/28/node = SubResource("VisualShaderNodeCustom_1qqu4")
+nodes/fragment/28/position = Vector2(-1220, 1400)
+nodes/fragment/30/node = SubResource("VisualShaderNodeFloatOp_7d7w8")
+nodes/fragment/30/position = Vector2(-1440, 1380)
+nodes/fragment/34/node = SubResource("VisualShaderNodeCustom_4iwiu")
+nodes/fragment/34/position = Vector2(-1260, 300)
+nodes/fragment/35/node = SubResource("VisualShaderNodeFloatOp_7b4cv")
+nodes/fragment/35/position = Vector2(-1497.34, 260)
+nodes/fragment/40/node = SubResource("VisualShaderNodeFloatOp_08gv5")
+nodes/fragment/40/position = Vector2(-1717.34, 280)
+nodes/fragment/41/node = SubResource("VisualShaderNodeFloatParameter_k4psq")
+nodes/fragment/41/position = Vector2(-2600, 320)
+nodes/fragment/42/node = SubResource("VisualShaderNodeFloatOp_q2023")
+nodes/fragment/42/position = Vector2(-1660, 1400)
+nodes/fragment/54/node = SubResource("VisualShaderNodeExpression_b4ifi")
+nodes/fragment/54/position = Vector2(-960, 320)
+nodes/fragment/54/size = Vector2(640, 500)
+nodes/fragment/54/input_ports = "0,0,noise;1,0,errorStrength;2,0,noiseSteps;3,0,signNoise;4,0,exponent;"
+nodes/fragment/54/output_ports = "0,0,error;"
+nodes/fragment/54/expression = "// float remap = noise * 2. - 1.;
+float neg = step(signNoise, .5) * 2. - 1.;
+float steppedNoise = floor(noise * noiseSteps) / noiseSteps;
+error = pow(steppedNoise, exponent) * neg * errorStrength;"
+nodes/fragment/55/node = SubResource("VisualShaderNodeFloatOp_ef5qm")
+nodes/fragment/55/position = Vector2(-1500, 480)
+nodes/fragment/56/node = SubResource("VisualShaderNodeCustom_ct40v")
+nodes/fragment/56/position = Vector2(-1260, 500)
+nodes/fragment/57/node = SubResource("VisualShaderNodeFloatOp_pa645")
+nodes/fragment/57/position = Vector2(-1720, 500)
+nodes/fragment/58/node = SubResource("VisualShaderNodeFloatOp_5qp64")
+nodes/fragment/58/position = Vector2(-1740, 900)
+nodes/fragment/59/node = SubResource("VisualShaderNodeFloatOp_sgvek")
+nodes/fragment/59/position = Vector2(-1520, 880)
+nodes/fragment/60/node = SubResource("VisualShaderNodeCustom_26seb")
+nodes/fragment/60/position = Vector2(-1280, 900)
+nodes/fragment/63/node = SubResource("VisualShaderNodeCustom_4o1e7")
+nodes/fragment/63/position = Vector2(-1220, 1600)
+nodes/fragment/64/node = SubResource("VisualShaderNodeFloatOp_73ug4")
+nodes/fragment/64/position = Vector2(-1680, 1600)
+nodes/fragment/65/node = SubResource("VisualShaderNodeFloatOp_nhavx")
+nodes/fragment/65/position = Vector2(-1460, 1580)
+nodes/fragment/69/node = SubResource("VisualShaderNodeCustom_3ulab")
+nodes/fragment/69/position = Vector2(1400, 460)
+nodes/fragment/70/node = SubResource("VisualShaderNodeCustom_dekdu")
+nodes/fragment/70/position = Vector2(940, 440)
+nodes/fragment/72/node = SubResource("VisualShaderNodeIntParameter_pmy5y")
+nodes/fragment/72/position = Vector2(-2600, 640)
+nodes/fragment/73/node = SubResource("VisualShaderNodeIntParameter_rc8gd")
+nodes/fragment/73/position = Vector2(-2600, 920)
+nodes/fragment/74/node = SubResource("VisualShaderNodeFloatParameter_sv8sp")
+nodes/fragment/74/position = Vector2(-2600, 1280)
+nodes/fragment/75/node = SubResource("VisualShaderNodeExpression_g8mc7")
+nodes/fragment/75/position = Vector2(-960, 860)
+nodes/fragment/75/size = Vector2(640, 500)
+nodes/fragment/75/input_ports = "0,0,noise;1,0,errorStrength;2,0,noiseSteps;3,0,signNoise;4,0,exponent;"
+nodes/fragment/75/output_ports = "0,0,error;"
+nodes/fragment/75/expression = "// float remap = noise * 2. - 1.;
+float neg = step(signNoise, .5) * 2. - 1.;
+float steppedNoise = floor(noise * noiseSteps) / noiseSteps;
+error = pow(steppedNoise, exponent) * neg * errorStrength;"
+nodes/fragment/76/node = SubResource("VisualShaderNodeExpression_gre0h")
+nodes/fragment/76/position = Vector2(-960, 1400)
+nodes/fragment/76/size = Vector2(640, 500)
+nodes/fragment/76/input_ports = "0,0,noise;1,0,errorStrength;2,0,noiseSteps;3,0,signNoise;4,0,exponent;"
+nodes/fragment/76/output_ports = "0,0,error;"
+nodes/fragment/76/expression = "// float remap = noise * 2. - 1.;
+float neg = step(signNoise, .5) * 2. - 1.;
+float steppedNoise = floor(noise * noiseSteps) / noiseSteps;
+error = pow(steppedNoise, exponent) * neg * errorStrength;"
+nodes/fragment/77/node = SubResource("VisualShaderNodeFloatOp_r5kgt")
+nodes/fragment/77/position = Vector2(1200, 440)
+nodes/fragment/78/node = SubResource("VisualShaderNodeCustom_1vb1u")
+nodes/fragment/78/position = Vector2(1400, 620)
+nodes/fragment/79/node = SubResource("VisualShaderNodeFloatOp_vt20m")
+nodes/fragment/79/position = Vector2(1200, 600)
+nodes/fragment/80/node = SubResource("VisualShaderNodeFloatOp_qg5yj")
+nodes/fragment/80/position = Vector2(1200, 760)
+nodes/fragment/81/node = SubResource("VisualShaderNodeCustom_d62a8")
+nodes/fragment/81/position = Vector2(1400, 780)
+nodes/fragment/82/node = SubResource("VisualShaderNodeExpression_36s55")
+nodes/fragment/82/position = Vector2(240, 800)
+nodes/fragment/82/size = Vector2(620, 540)
+nodes/fragment/82/input_ports = "0,3,screenUV;1,0,widthError;"
+nodes/fragment/82/output_ports = "0,3,uv;"
+nodes/fragment/82/expression = "float width = VIEWPORT_SIZE.x;
+float height = VIEWPORT_SIZE.y;
+float x = floor(screenUV.x * width);
+float y = floor(screenUV.y * height);
+float curr_index = mod((y * (width + widthError) + x) + (width * height), (width * height));
+//uv = floor((screenUV + index) * dimensions) / dimensions;
+uv = vec2(mod(curr_index, width) / width, floor(curr_index / width) / height);"
+nodes/fragment/83/node = SubResource("VisualShaderNodeExpression_cl1f8")
+nodes/fragment/83/position = Vector2(240, 1400)
+nodes/fragment/83/size = Vector2(620, 540)
+nodes/fragment/83/input_ports = "0,3,screenUV;1,0,widthError;"
+nodes/fragment/83/output_ports = "0,3,uv;"
+nodes/fragment/83/expression = "float width = VIEWPORT_SIZE.x;
+float height = VIEWPORT_SIZE.y;
+float x = floor(screenUV.x * width);
+float y = floor(screenUV.y * height);
+float curr_index = mod((y * (width + widthError) + x) + (width * height), (width * height));
+//uv = floor((screenUV + index) * dimensions) / dimensions;
+uv = vec2(mod(curr_index, width) / width, floor(curr_index / width) / height);"
+nodes/fragment/connections = PackedInt32Array(4, 0, 6, 0, 6, 0, 5, 0, 5, 0, 18, 0, 16, 0, 18, 1, 17, 0, 18, 2, 20, 0, 19, 0, 30, 0, 28, 0, 35, 0, 34, 0, 20, 0, 35, 0, 20, 0, 30, 0, 40, 0, 35, 1, 41, 0, 20, 0, 41, 0, 40, 0, 41, 0, 42, 0, 42, 0, 30, 1, 18, 0, 0, 0, 34, 0, 54, 0, 55, 0, 56, 0, 57, 0, 55, 1, 41, 0, 57, 0, 20, 0, 55, 0, 56, 0, 54, 3, 59, 0, 60, 0, 58, 0, 59, 1, 41, 0, 58, 0, 20, 0, 59, 0, 65, 0, 63, 0, 64, 0, 65, 1, 20, 0, 65, 0, 41, 0, 64, 0, 69, 0, 18, 3, 72, 0, 54, 1, 73, 0, 54, 2, 74, 0, 54, 4, 19, 0, 75, 0, 72, 0, 75, 1, 73, 0, 75, 2, 74, 0, 75, 4, 60, 0, 75, 3, 28, 0, 76, 0, 63, 0, 76, 3, 74, 0, 76, 4, 73, 0, 76, 2, 72, 0, 76, 1, 70, 0, 77, 0, 77, 0, 69, 0, 79, 0, 78, 0, 80, 0, 81, 0, 78, 0, 18, 4, 81, 0, 18, 5, 70, 0, 79, 0, 70, 0, 80, 0, 54, 0, 6, 1, 4, 0, 82, 0, 4, 0, 83, 0, 75, 0, 82, 1, 76, 0, 83, 1, 82, 0, 16, 0, 83, 0, 17, 0)
